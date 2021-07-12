@@ -1,0 +1,18 @@
+name: mml
+channels:
+  - defaults
+dependencies:
+  - dill=0.3.3
+  - joblib=1.0.1
+  - keras=2.4.3
+  - matplotlib=3.3.4
+  - numpy=1.20.1
+  - pandas=1.2.4
+  - pymongo=3.11.3
+  - python=3.8.8
+  - scikit-learn=0.23.2
+  - seaborn=0.11.1
+  - tensorflow=2.3.0
+  - termcolor=1.1.0
+  - tqdm=4.59.0
+prefix: E:\tools\Anaconda\envs\mml
