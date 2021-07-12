@@ -38,8 +38,8 @@ something like this (or something completely different), you can skip it as it
 is only used in classification_function below.
 """
 pipeline = CustomPipeline(
-    "models/full_pipeline_surrogate.dat",
-    ["models/libs_vectorizer_surrogate.dat", "models/funcs_vectorizer_surrogate.dat"],
+    "models/surrogate/full_pipeline_surrogate.dat",
+    ["models/surrogate/libs_vectorizer_surrogate.dat", "models/surrogate/funcs_vectorizer_surrogate.dat"],
 )
 
 
