@@ -10,6 +10,9 @@ class MctsMutator:
 
     def run(self, iterations, sample):
         tried_combinations = {}
+        
+        # This is used to keep track of how many times we have performed these
+        # changes below. You can add or remove things here to match your setup
         starting_state = {
             "added_strings": 0,
             "removed_strings": 0,
@@ -17,6 +20,7 @@ class MctsMutator:
             "entropy_changes": 0,
             "combinations_tried": tried_combinations,
         }
+        
         root = Node(-1, sample, starting_state, "root")
         # It is the root, we need to expand it anyway
         self.expansion_policy.evaluate(root)
@@ -48,9 +52,8 @@ class MctsMutator:
             # first time) or one of it's children since we jut expanded it
             path = self.simulation_policy.evaluate(node)
 
-            # TODO: Should we subtracting this? So highest score == shortest
-            # path. What about inf if we didn't find anything
-            # score = -len(path) if path else -np.inf
+            # The score is negative here, so smaller path values will result in
+            # a higher score
             score = -len(path) if path else -np.inf
 
             # backpropage the value
@@ -65,7 +68,10 @@ class MctsMutator:
         return root
 
     def get_optimum_child(self, node: Node) -> Node:
-        # scores = [child.score / child.visit_count for child in node.children]
+        """
+        This is done during path recovery. We absolutely want to avoid children
+        with 0 visits, as it means we never explored them. 
+        """
         scores = []
         for child in node.children:
             if child.visit_count == 0:
@@ -74,14 +80,6 @@ class MctsMutator:
                 scores.append(child.score / child.visit_count)
         index = np.argmax(scores)
         return node.children[index]
-        # rv = node.children[0]
-        # best_score = rv.score if rv.score < 0 else -np.inf
-
-        # for c in node.children:
-        #     if c.score < 0 and c.score > best_score:
-        #         rv = c
-        #         best_score = c.score
-        # return rv
 
     def recover_path(self, root: Node):
         node = root

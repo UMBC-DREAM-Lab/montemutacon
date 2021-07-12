@@ -32,6 +32,12 @@ class Mutation(ABC):
 
     @abstractclassmethod
     def apply(self, sample, state) -> SerializedMutation:
+        """
+        The apply function should modify the state and sample variables to
+        showcase the changes such a mutation would have on the binary. You are
+        free to change the sample and state dictionaries as you see fit to match
+        your environment.
+        """
         pass
 
 

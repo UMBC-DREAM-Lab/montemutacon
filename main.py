@@ -30,29 +30,36 @@ import sys
 from tables import mutations_table
 
 """
-This is the full transformation pipeline, specific to the surrogate model.
-The first is the standard transformers, and the second argument is an array of
-transformers for vectorized features. In the same order that was used in the training
-of the surrogate model. If your model does not require something like this (or something 
-completely different), you can skip it as it is only used in classification_function below.
+This is the full transformation pipeline, specific to the surrogate model. The
+first is the standard transformers, and the second argument is an array of
+transformers for vectorized and categorical features. In the same order that was
+used in the training of the surrogate model. If your model does not require
+something like this (or something completely different), you can skip it as it
+is only used in classification_function below.
 """
 pipeline = CustomPipeline(
-    "models/full_pipeline_tree.dat",
-    ["models/libs_vectorizer_tree.dat", "models/funcs_vectorizer_tree.dat"],
+    "models/full_pipeline_surrogate.dat",
+    ["models/libs_vectorizer_surrogate.dat", "models/funcs_vectorizer_surrogate.dat"],
 )
 
 
 def classification_function(model, sample):
     """
-    You can use this to change how a model predicts it's value. You should mostly have to modify
-    the final return statement and nothing else. This is to deal with some models using predict(),
-    others predict_classes(), proba(), etc.
+    You can use this to change how a model predicts it's value. This function
+    depends entirely on how your model functions, and what data you are using.
+    Below we have an example of what we did. You need to adjust this to your use
+    case.
+
+    In our example here, we need to transform the sample through the pipeline so
+    our model can classify it. We also need to change the layout of
+    imported_libs and imported_funcs as Pandas needs it this way.
     """
     to_convert = sample.copy()
     to_convert["imported_libs"] = [[*to_convert["imported_libs"]]]
     to_convert["imported_funcs"] = [[*to_convert["imported_funcs"]]]
     df = pd.DataFrame.from_dict(to_convert)
     df.drop(columns=["y"], inplace=True)
+
     # Transform the sample through the pipeline. Depending on your model you might not need this
     transform = pipeline.transform(df, ["imported_libs", "imported_funcs"])
    
@@ -65,7 +72,7 @@ def classification_function(model, sample):
     return thing[0]
 
 
-def mcts_thread_function(sample, i, exp, its, depth):
+def mcts_thread_function(sample, i, exp, iterations, depth):
     print(f"Processing sample {i}")
     """
     Swap this to change how a model is loaded. The model will be just passed to the
@@ -73,12 +80,13 @@ def mcts_thread_function(sample, i, exp, its, depth):
     as some models cannot be pickled by the joblib library later on. So each thread loads the model
     for itself. If that does not work with your model for some reason, you will need to rework this.
     """
-    # model = keras.models.load_model("models/mlp")
-    model = pickle.load(open('models/trained_tree.dat', 'rb'))
+    # You probably don't want to use the actual victim model. This is just
+    # an example on how you can use different models
+    # model = keras.models.load_model("models/victim/mlp_model")
+    model = pickle.load(open('models/surrogate/trained_tree.dat', 'rb'))
 
     exploration_coefficient = exp
     simulation_depth = depth
-    iterations = its
 
     tree_policy = MctsTreePolicy(exploration_coefficient)
     expansion_policy = MctsExpansionPolicy(mutations_table)
@@ -116,12 +124,12 @@ def mcts_thread_function(sample, i, exp, its, depth):
         return {"skipped": False, "changes": [], "time": end - start}
 
 
-def random_thread_function(sample, i, its):
+def random_thread_function(sample, i, iterations):
     print(f"Processing sample {i}")
-
-    iterations = its
-    # model = keras.models.load_model("models/mlp")
-    model = pickle.load(open('models/trained_tree.dat', 'rb'))
+    # You probably don't want to use the actual victim model. This is just
+    # an example on how you can use different models
+    # model = keras.models.load_model("models/victim/mlp_model")     
+    model = pickle.load(open('models/surrogate/trained_tree.dat', 'rb'))
 
     tree_policy = RandomTreePolicy()
     expansion_policy = RandomExpansionPolicy(mutations_table)
@@ -156,10 +164,11 @@ def random_thread_function(sample, i, its):
 
 if __name__ == "__main__":
     """
-    Which node we want to use. We can use nvidia-smi to see GPU usage. Only applicable if 
-    your model uses GPU processing. The algorithm itself does not use cuda.
+    Which GPU  node we want to use. We can use nvidia-smi to see GPU usage. Only
+    applicable if your model uses GPU processing. The algorithm itself does not
+    use cuda.
     """
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
     """
     Settings for the mutator
@@ -176,8 +185,14 @@ if __name__ == "__main__":
     iterations = 5
 
     """
-    This is specific to loading the things we want from the Ember2018 dataset. If the model is trained on 
-    different datasets you need to adjust this part. 
+    This is specific to loading the things we want from the Ember2018 dataset.
+    If the model is trained on different datasets you need to adjust this part.
+    We are using a bit under 200000 samples, and generate mutations on those.
+
+    You can see the features we picked out of the Ember2018 Data set. We have
+    specific ones we wanted stored in MongoDB. You can adjust here as you see
+    fit to match your own environment. You can use any other data source as long
+    as your models know about this, and you modify the mutations accordingly.
     """
     num_samples = 200000
 
