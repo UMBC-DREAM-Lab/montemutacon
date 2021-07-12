@@ -22,7 +22,7 @@ title: Evading Malware Classifiers via Monte Carlo Mutant Feature Discovery
 email: mgioanni@outlook.com
 description: >- # this means to ignore newlines until "baseurl:"
   Documentation on using our MCTS based search to find mutations on malware
-baseurl: ".mcts" # the subpath of your site, e.g. /blog
+baseurl: "/mcts" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 
