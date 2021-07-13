@@ -68,13 +68,14 @@ model = pickle.load(open('trained_tree.dat', 'rb'))
 ```
 
 ## Tree Policy
-The mcts tree policy. For details refer to the paper
+The mcts tree policy. For details refer to the paper. We use 2 as our
+exploration coefficient.
 
 ```py
 from mml.mcts.tree_policy import MctsTreePolicy
 tree_policy = MctsTreePolicy(2)
 ```
-# Expansion Policy
+## Expansion Policy
 How to expand a new node. The paper includes the details. `mutations_table` is a
 data structure that contains the available mutations plus if it can be applied.
 You can read more here. The given mutations_table works with samples.json you
@@ -87,6 +88,8 @@ expansion_policy = MctsExpansionPolicy(mutations_table)
 ```
 
 ## Simulation Policy
+The simulation policy dictates how to handle the simulation step of MCTS. We use
+25 for the simulation depth here.
 ```py
 from mml.mcts.simulation_policy import MctsSimulationPolicy
 
@@ -110,6 +113,8 @@ mcts_mutator = MctsMutator(
 ```
 
 ## Loading our data set
+We need to find all the malicious samples, there is no point trying to find
+mutations on a benign sample.
 ```py
 import json
 samples = json.load(open('samples.json'))
@@ -119,8 +124,8 @@ malware = [sample for sample in samples if sample['y'] == 1]
 ## Finally, running everything
 You could use the recovered path in many other ways. Here we are just storing it
 in an array. You could also store it to disk to later use it in some way. Please
-not that you must **NOT** remove the tried_combinations part of starting_state.
-The algorithm needs it.
+note that you must **NOT** remove the `tried_combinations` part of
+`starting_state`. The algorithm needs it.
 ```py
 results = []
 for sample in malware:
@@ -155,6 +160,7 @@ for sample in malware:
         )
 ```
 
+# The end (?)
 This concludes the getting started tutorial. Reminder that you can find the
 whole python file here <a href="{{'assets/example.py.txt' | absolute_url}}"
 target="_blank" rel="noopener noreferrer">example.py</a>

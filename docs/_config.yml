@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: MCTS
+title: MonteMutacon
 email: mgioanni@outlook.com
 description: >- # this means to ignore newlines until "baseurl:"
   Documentation on using our MCTS based search to find mutations on malware
@@ -35,3 +35,13 @@ search_enabled: true
 
 search:
   button: true
+
+aux_links:
+  "MonteMutant on GitHub":
+    - "//github.com/iboutsikas/mcts"
+
+aux_links_new_tab: true
+
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
