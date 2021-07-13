@@ -22,7 +22,7 @@ title: MonteMutacon
 email: mgioanni@outlook.com
 description: >- # this means to ignore newlines until "baseurl:"
   Documentation on using our MCTS based search to find mutations on malware
-baseurl: "/mcts" # the subpath of your site, e.g. /blog
+baseurl: "/montemutacon" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 
@@ -38,7 +38,7 @@ search:
 
 aux_links:
   "MonteMutant on GitHub":
-    - "//github.com/iboutsikas/mcts"
+    - "//github.com/iboutsikas/montemutacon"
 
 aux_links_new_tab: true
 
