@@ -30,7 +30,7 @@ def classification_function(model, sample) -> int:
 
 if __name__ == '__main__':
 
-    model = pickle.load(open('trained_tree.dat', 'rb'))
+    model = pickle.load(open('models/surrogate/trained_tree.dat', 'rb'))
     tree_policy = MctsTreePolicy(2)
     expansion_policy = MctsExpansionPolicy(mutations_table)
     simulation_policy = MctsSimulationPolicy(
@@ -47,10 +47,13 @@ if __name__ == '__main__':
         simulation_policy=simulation_policy,
     )
     samples = json.load(open('samples.json'))
+    malware = [sample for sample in samples if sample['y'] == 1]
+    
     results = []
+    count = 0
 
-    for sample in samples:
-
+    for sample in malware:
+        print(f'Processing sample {count}')
         if classification_function(model, sample) == 0:
             results.append(
                 { "skipped": True, "changes": [] }
@@ -65,9 +68,9 @@ if __name__ == '__main__':
             "removed_strings": 0,
             "added_libs": 0,
             "entropy_changes": 0,
-            "combinations_tried": tried_combinations,
+            "tried_combinations": tried_combinations,
         }
-        root = mcts_mutator.run(300, sample, starting_state)
+        root = mcts_mutator.run(50, sample, starting_state)
         path = mcts_mutator.recover_path(root)
 
         if path[-1].is_terminal:
@@ -79,5 +82,4 @@ if __name__ == '__main__':
             results.append(
                 { "skipped": False, "changes": [] }
             )
-
-    pass
+        count += 1
