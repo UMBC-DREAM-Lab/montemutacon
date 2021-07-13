@@ -1,0 +1,37 @@
+p {
+    text-align: justify;
+}
+
+.alert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+.alert-info {
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}
+
+.alert-primary {
+    background-color: $purple-000;
+    color: white;
+    border-color: $purple-100;
+
+    & > a {
+        color: white;
+    }
+}
+
+.alert-danger {
+    background-color: $red-000;
+    color: #671717;
+    border-color: $red-100;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
+}
