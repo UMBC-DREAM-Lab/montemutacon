@@ -21,7 +21,7 @@ class MctsExpansionPolicy(ExpansionPolicy):
             potential_path = tuple(potential_path)
 
             allowed_by_predicate = value["predicate"](node.sample, node.state)
-            not_tried_before = potential_path not in node.state["combinations_tried"]
+            not_tried_before = potential_path not in node.state["tried_combinations"]
 
             if allowed_by_predicate and not_tried_before:
                 options.append(value["mutation"])

@@ -8,19 +8,8 @@ class MctsMutator:
         self.expansion_policy = expansion_policy
         self.simulation_policy = simulation_policy
 
-    def run(self, iterations, sample):
-        tried_combinations = {}
-        
-        # This is used to keep track of how many times we have performed these
-        # changes below. You can add or remove things here to match your setup
-        starting_state = {
-            "added_strings": 0,
-            "removed_strings": 0,
-            "added_libs": 0,
-            "entropy_changes": 0,
-            "combinations_tried": tried_combinations,
-        }
-        
+    def run(self, iterations, sample, starting_state):
+                
         root = Node(-1, sample, starting_state, "root")
         # It is the root, we need to expand it anyway
         self.expansion_policy.evaluate(root)
@@ -46,7 +35,7 @@ class MctsMutator:
                     node = self.tree_policy.evaluate(node)
             else:
                 key = tuple(sorted(node.path_to_me))
-                tried_combinations[key] = 1
+                starting_state['tried_combinations'][key] = 1
 
             # Node here will either be the original one (that we visit for the
             # first time) or one of it's children since we jut expanded it

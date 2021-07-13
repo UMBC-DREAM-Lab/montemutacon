@@ -7,16 +7,7 @@ class RandomMutator:
         self.expansion_policy = expansion_policy
         self.evaluation_policy = simulation_policy
 
-    def run(self, iterations, sample):
-        tried_combinations = {}
-        starting_state = {
-            "added_strings": 0,
-            "removed_strings": 0,
-            "added_libs": 0,
-            "entropy_changes": 0,
-            "combinations_tried": tried_combinations,
-        }
-
+    def run(self, iterations, sample, starting_state):
         root = Node(-1, sample, starting_state, "root")
         
         # It is the root, we need to expand it anyway
@@ -33,7 +24,7 @@ class RandomMutator:
                 break
 
             key = tuple(sorted(node.path_to_me))
-            tried_combinations[key] = 1
+            starting_state['tried_combinations'][key] = 1
         return root
 
     def recover_path(self, root: Node):

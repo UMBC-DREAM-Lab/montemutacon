@@ -110,9 +110,21 @@ def mcts_thread_function(sample, i, exp, iterations, depth):
     if classification_function(model, sample) == 0:
         # print('Sample is misclassified in the first place, skipping...')
         return {"skipped": True, "changes": [], "time": 0}
+    
+    tried_combinations = {}
+            
+    # This is used to keep track of how many times we have performed these
+    # changes below. You can add or remove things here to match your setup
+    starting_state = {
+        "added_strings": 0,
+        "removed_strings": 0,
+        "added_libs": 0,
+        "entropy_changes": 0,
+        "tried_combinations": tried_combinations,
+    }
 
     start = time.time()
-    root = mcts_mutator.run(iterations, sample)
+    root = mcts_mutator.run(iterations, sample, starting_state)
     path = mcts_mutator.recover_path(root)
     end = time.time()
     if path[-1].is_terminal:
@@ -149,8 +161,20 @@ def random_thread_function(sample, i, iterations):
         # print('Sample is misclassified in the first place, skipping...')
         return {"skipped": True, "changes": [], "time": 0}
 
+    tried_combinations = {}
+            
+    # This is used to keep track of how many times we have performed these
+    # changes below. You can add or remove things here to match your setup
+    starting_state = {
+        "added_strings": 0,
+        "removed_strings": 0,
+        "added_libs": 0,
+        "entropy_changes": 0,
+        "tried_combinations": tried_combinations,
+    }
+
     start = time.time()
-    root = random_mutator.run(iterations, sample)
+    root = random_mutator.run(iterations, sample, starting_state)
     path = random_mutator.recover_path(root)
     end = time.time()
     if path[-1].is_terminal:
