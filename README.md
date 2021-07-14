@@ -10,6 +10,8 @@ Search are included in the repository; however, the repository does not contain 
 
 </div>
 
+The use of Machine Learning has become a significant part of malware detection efforts due to the influx of new malware, an ever changing threat landscape, and the ability of Machine Learning methods to discover meaningful distinctions between malicious and benign software. Antivirus vendors have also begun to widely utilize malware classifiers based on dynamic and static malware analysis features. Therefore, a malware author might make evasive binary modifications against Machine Learning models as part of the malware development life cycle to execute an attack successfully. This makes the studying of possible classifier evasion strategies an essential part of cyber defense against malice. To this extent, we stage a grey box setup to analyze a scenario where the malware author does not know the target classifier algorithm, and does not have access to decisions made by the classifier, but knows the features used in training. In this experiment, a malicious actor trains a surrogate model using the EMBER-2018 dataset to discover binary mutations that cause an instance to be misclassified via a Monte Carlo tree search. Then, mutated malware is sent to the victim model that takes the place of an antivirus API to test whether it can evade detection.
+
 ## Dependencies
 There is an [environment.yml](environment.yml) included. Please note that it includes the core
 dependencies only, so it can be used on any platform. It also includes a
