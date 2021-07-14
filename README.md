@@ -47,9 +47,9 @@ If you use our software, please consider citing the original paper:
 ```
 
 ## Authors
-- John Boutsikas
+- [John Boutsikas](https://www.linkedin.com/in/ioannis-boutsikas/)
 - [Maksim E. Eren](https://www.maksimeren.com)
 - [Charles Varga](https://www.linkedin.com/in/cvar-ga/)
 - [Edward Raff](https://www.edwardraff.com)
-- Cynthia Matuszek
-- Charles Nicholas
+- [Cynthia Matuszek](https://www.csee.umbc.edu/~cmat/)
+- [Charles Nicholas](https://www.csee.umbc.edu/~nicholas/charles_nicholas.html)
