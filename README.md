@@ -1,8 +1,7 @@
-# Evading Malware Classifiers via Monte Carlo Mutant Feature Discovery
+# MonteMutacon
 
 This repository contains the code for the mutant malware feature discovery with Monte Carlo Tree Search (MCTS). 
-This method is based on our [paper](https://arxiv.org/abs/2106.07860) that was presented at the [12th Annual Malware Technical Exchange Meeting
-](https://www.sandia.gov/mtem/). Both MCTS and Random
+This method is based on our paper ["Evading Malware Classifiers via Monte Carlo Mutant Feature Discovery"](https://arxiv.org/abs/2106.07860) that was presented at the [12th Annual Malware Technical Exchange Meeting](https://www.sandia.gov/mtem/). Both MCTS and Random
 Search are included in the repository; however, the repository does not contain any of the performance evaluation code used in our research.
 
 <div align="center", style="font-size: 50px">
@@ -12,7 +11,7 @@ Search are included in the repository; however, the repository does not contain 
 </div>
 
 ## Dependencies
-There is an `environment.yml` included. Please note that it includes the core
+There is an [environment.yml](environment.yml) included. Please note that it includes the core
 dependencies only, so it can be used on any platform. It also includes a
 dependency on `scikit-learn` and `tensorflow` because the models used in our research utilized these libraries.
 If your models do not use that, you can safely remove the dependencies from
