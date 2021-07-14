@@ -30,7 +30,7 @@ conda env create -f environment.yml
 ## Usage
 [main.py](main.py) is the entry point to the software. It will require adjustments for
 your use case as it is not a standalone library right now. The code is
-documented to help you figure out what's what since you are not in our heads!
+documented (see documentation [here](https://umbc-dream-lab.github.io/montemutacon/)) to help you figure out what's what since you are not in our heads!
 
 ## How to Cite?
 If you use our software, please consider citing the original paper:
